@@ -10,7 +10,8 @@ public class Customer {
     @Id
     @SequenceGenerator(
             name = "customer_id_sequence",
-            sequenceName = "customer_id_sequence"
+            sequenceName = "customer_id_sequence",
+            allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -20,6 +21,9 @@ public class Customer {
     private String name;
     private String email;
     private Integer age;
+
+    public Customer() {
+    }
 
     public Customer(Integer id, String name, String email, Integer age) {
         this.id = id;
