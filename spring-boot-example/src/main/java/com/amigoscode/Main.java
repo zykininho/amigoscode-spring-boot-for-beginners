@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 @RestController
@@ -45,6 +46,19 @@ public class Main {
     @DeleteMapping("{customerId}")
     public void deleteCustomer(@PathVariable("customerId") Integer id) {
         customerRepository.deleteById(id);
+    }
+
+    @PutMapping("{customerId}")
+    public void addCustomer(@PathVariable("customerId") Integer id,
+                            @RequestBody NewCustomerRequest request) {
+        Optional optionalCustomer = customerRepository.findById(id);
+        if (optionalCustomer.isPresent()) {
+            Customer customer = (Customer) optionalCustomer.get();
+            customer.setName(request.name());
+            customer.setEmail(request.email());
+            customer.setAge(request.age());
+            customerRepository.save(customer);
+        }
     }
 
 }
